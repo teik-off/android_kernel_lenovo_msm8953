@@ -834,4 +834,9 @@ config DOUBLE_TAP
 	help
 	 If you say yes here, you get support Bosch double tap sensor function
 
+config SYNAPTICS_FINGERPRINT
+	tristate "Synaptics fingerprint reader support"
+	help
+	  Say Y to enable support for the Synaptics fingerprint reader driver.
+
 endif
