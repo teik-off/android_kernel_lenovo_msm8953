@@ -5449,7 +5449,7 @@ static enum power_supply_property ext_charger_power_supply_props[] = {
 //	POWER_SUPPLY_PROP_STATUS,
 	POWER_SUPPLY_PROP_TEMP,
 //	POWER_SUPPLY_PROP_MODEL_NAME,
-	POWER_SUPPLY_PROP_CHARGE_ENABLED,
+	POWER_SUPPLY_PROP_PIN_ENABLED,
 	POWER_SUPPLY_PROP_BATTERY_CHARGING_ENABLED,
 	POWER_SUPPLY_PROP_CURRENT_MAX,
 	POWER_SUPPLY_PROP_INPUT_CURRENT_MAX,
@@ -5473,7 +5473,7 @@ static int ext_charger_power_supply_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_TEMP:
 		val->intval = 25;//smb1351_get_board_temp(chip, PA1_TEMP);//board ntc temp
 		break;
-	case POWER_SUPPLY_PROP_CHARGE_ENABLED:
+	case POWER_SUPPLY_PROP_PIN_ENABLED:
 		val->intval = !chip->usb_suspended_status;
 		break;
 	case POWER_SUPPLY_PROP_BATTERY_CHARGING_ENABLED:
@@ -5514,7 +5514,7 @@ static int ext_charger_power_supply_set_property(struct power_supply *psy,
 				chip->batt_temp = val->intval;
 			}
 			break;
-		case POWER_SUPPLY_PROP_CHARGE_ENABLED:
+		case POWER_SUPPLY_PROP_PIN_ENABLED:
 			chip->is_factory_need_write = true;
 			smb1351_usb_suspend(chip, USER, !val->intval);
 			chip->is_factory_need_write = false;
@@ -5580,7 +5580,7 @@ static int ext_charger_power_supply_property_is_writeable(struct power_supply *p
 					enum power_supply_property psp)
 {
 	switch (psp) {
-		case POWER_SUPPLY_PROP_CHARGE_ENABLED:
+		case POWER_SUPPLY_PROP_PIN_ENABLED:
 		case POWER_SUPPLY_PROP_BATTERY_CHARGING_ENABLED:
 		case POWER_SUPPLY_PROP_CURRENT_MAX:
 		case POWER_SUPPLY_PROP_INPUT_CURRENT_MAX:
@@ -6204,7 +6204,7 @@ static int smb1351_parallel_slave_probe(struct i2c_client *client,
 	i2c_set_clientdata(client, chip);
 
 	chip->parallel_psy.name		= PSY_PARALLEL_NAME;//"usb-parallel";
-	chip->parallel_psy.type		= POWER_SUPPLY_TYPE_USB_PARALLEL;
+	chip->parallel_psy.type		= POWER_SUPPLY_TYPE_PARALLEL;
 	chip->parallel_psy.get_property	= smb1351_parallel_get_property;
 	chip->parallel_psy.set_property	= smb1351_parallel_set_property;
 	chip->parallel_psy.properties	= smb1351_parallel_properties;
